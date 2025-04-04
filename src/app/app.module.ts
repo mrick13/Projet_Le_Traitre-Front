@@ -30,7 +30,7 @@ import {routes} from './app.routes';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     FormsModule,
     HttpClientModule
   ],
