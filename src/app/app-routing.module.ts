@@ -10,20 +10,20 @@ import { EndComponent } from './party/end/end.component';
 import { ProfileComponent } from './profile/profile/profile.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'account', component: AccountComponent },
   { path: 'lobby', component: LobbyComponent },
   { path: 'party', component: PartyComponent },
   { path: 'end', component: EndComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: '**', redirectTo: 'register' }
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

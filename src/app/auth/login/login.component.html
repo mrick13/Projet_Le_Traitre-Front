@@ -1,1 +1,41 @@
-<p>login works!</p>
+<div class="registration-container">
+  <h1 class="title">Le Traître</h1>
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <label for="email">E-mail:</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      [(ngModel)]="email"
+      required
+      class="input-field"
+    />
+
+    <label for="password">Mot de Passe :</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      [(ngModel)]="password"
+      required
+      class="input-field"
+    />
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <label for="toRegistration">
+      Si vous avez pas de compte cliquez
+      <a routerLink="/register">ici</a>
+    </label>
+
+    <button
+      type="submit"
+      [disabled]="!loginForm.valid"
+      class="submit-button"
+    >
+      Se connecter
+    </button>
+  </form>
+</div>

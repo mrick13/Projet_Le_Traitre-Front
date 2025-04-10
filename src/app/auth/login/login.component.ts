@@ -1,27 +1,34 @@
 import { Component } from '@angular/core';
-import { AuthService} from '../../auth.service';
+import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  standalone: false,
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss'], // Correction du champ "styleUrl"
+  standalone: false
 })
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  errorMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   login() {
     this.authService.login(this.email, this.password).subscribe(
       response => {
         console.log('Login successful', response);
-        // Rediriger vers une autre page ou effectuer une autre action
+
+        // Stocker le jeton JWT ou les informations de session
+        localStorage.setItem('token', response.token);
+
+        // Rediriger vers une autre page après connexion
+        this.router.navigate(['/home']);
       },
       error => {
         console.error('Login failed', error);
-        // Afficher un message d'erreur
+        this.errorMessage = 'Échec de la connexion. Vérifiez vos identifiants.';
       }
     );
   }

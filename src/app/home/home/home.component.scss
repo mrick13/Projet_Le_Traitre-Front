@@ -1,0 +1,57 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Katibeh&display=swap');
+
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  background: url('/assets/home_img.png') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.welcome-text {
+  font-size: 3rem;
+  color: white;
+  font-family: 'Katibeh', cursive;
+}
+
+.pseudo {
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  gap: 30px;
+}
+
+.btn {
+  padding: 15px 30px;
+  border-radius: 12px;
+  background: linear-gradient(to right, #022F4D, #023353, #011526);
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Katibeh', cursive;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: linear-gradient(to left, #022F4D, #023353, #011526);
+}

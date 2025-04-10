@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  createGame(): void {
+
+  }
+  joinGame(): void {
+
+  }
 }
