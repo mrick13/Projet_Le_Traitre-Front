@@ -1,1 +1,29 @@
-<p>lobby works!</p>
+<div class="lobby-container">
+  <div class="overlay">
+    <h1 class="title">Voici le code pour rejoindre : <span class="code">{{ lobbyCode }}</span>
+      <button (click)="copyCode()" class="copy-btn">📋</button>
+    </h1>
+
+    <div class="main-section">
+      <div class="roles-panel">
+        <div *ngFor="let role of roles" class="role-box">
+          <span>{{ role.name }}</span>
+          <div class="counter">
+            <button (click)="decrement(role)">-</button>
+            <span>{{ role.count }}</span>
+            <button (click)="increment(role)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="players-panel">
+        <div *ngFor="let player of players" class="player-slot">
+          <div class="icon">👤</div>
+          <span>{{ player || '' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="start-btn" (click)="startGame()">Lancer la partie</button>
+  </div>
+</div>

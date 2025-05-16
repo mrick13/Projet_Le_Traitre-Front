@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr'; // Importer ToastrService
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
