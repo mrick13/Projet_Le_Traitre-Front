@@ -5,11 +5,15 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AccountComponent } from './account/account/account.component';
 import { LobbyComponent } from './lobby/lobby/lobby.component';
-import { PartyComponent } from './party/party/party.component';
 import { EndComponent } from './party/end/end.component';
 import { ProfileComponent } from './profile/profile/profile.component';
 import {SearchComponent} from './search/search/search.component';
 import {LobbyLoadingComponent} from './lobby/lobby-loading/lobby-loading.component';
+import {DayComponent} from './party/day/day.component';
+import {NightComponent} from './party/night/night.component';
+import {LoupGarouComponent} from './party/loup-garou/loup-garou.component';
+import {VoyanteComponent} from './party/voyante/voyante.component';
+import {SorciereComponent} from './party/sorciere/sorciere.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,7 +24,11 @@ const routes: Routes = [
   { path: 'lobby/:id', component: LobbyComponent },
   { path: 'lobby-loading/:id', component: LobbyLoadingComponent },
   { path: 'search', component: SearchComponent },
-  { path: 'party', component: PartyComponent },
+  { path: 'day', component: DayComponent },
+  { path: 'night', component: NightComponent },
+  { path: 'loup-garou', component: LoupGarouComponent },
+  { path: 'voyante', component: VoyanteComponent },
+  { path: 'sorciere', component: SorciereComponent },
   { path: 'end', component: EndComponent },
   { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: 'login' }

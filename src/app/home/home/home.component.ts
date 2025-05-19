@@ -33,4 +33,7 @@ export class HomeComponent {
   getUserPseudo(): string | null {
     return this.authService.getUserPseudo()
   }
+  goDemo(){
+    this.router.navigate(['/day']);
+  }
 }
