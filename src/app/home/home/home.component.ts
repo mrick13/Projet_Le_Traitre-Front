@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthService} from '../../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +10,27 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private router: Router) {
-  }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   createGame(): void {
-    this.router.navigate(['/lobby']);
+    const gameId = this.generateCode();
+    this.router.navigate(['/lobby', gameId]);
   }
+
+  generateCode(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    return Array.from({ length: 8 }, () =>
+      chars[Math.floor(Math.random() * chars.length)]
+    ).join('');
+  }
+
   joinGame(): void {
-    this.router.navigate(['/lobby']);
+    this.router.navigate(['/search']);
+  }
+  getUserPseudo(): string | null {
+    return this.authService.getUserPseudo()
   }
 }

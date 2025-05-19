@@ -20,10 +20,9 @@ export class LoginComponent {
       response => {
         console.log('Login successful', response);
 
-        // Stocker le jeton JWT ou les informations de session
         localStorage.setItem('token', response.token);
+        this.authService.setUser(response);
 
-        // Rediriger vers une autre page après connexion
         this.router.navigate(['/home']);
       },
       error => {

@@ -8,6 +8,8 @@ import { LobbyComponent } from './lobby/lobby/lobby.component';
 import { PartyComponent } from './party/party/party.component';
 import { EndComponent } from './party/end/end.component';
 import { ProfileComponent } from './profile/profile/profile.component';
+import {SearchComponent} from './search/search/search.component';
+import {LobbyLoadingComponent} from './lobby/lobby-loading/lobby-loading.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'account', component: AccountComponent },
-  { path: 'lobby', component: LobbyComponent },
+  { path: 'lobby/:id', component: LobbyComponent },
+  { path: 'lobby-loading/:id', component: LobbyLoadingComponent },
+  { path: 'search', component: SearchComponent },
   { path: 'party', component: PartyComponent },
   { path: 'end', component: EndComponent },
   { path: 'profile', component: ProfileComponent },

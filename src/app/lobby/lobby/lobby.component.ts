@@ -1,4 +1,7 @@
 import { Component , OnInit } from '@angular/core';
+import { PartyService} from '../../party.service';
+import { ToastrService } from 'ngx-toastr';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-lobby',
@@ -20,15 +23,38 @@ export class LobbyComponent implements OnInit {
   ];
   players: (string | null)[] = Array(20).fill(null); // slots vides
 
+  constructor(
+    private route : ActivatedRoute,
+    private partyService: PartyService,
+    private router: Router,
+    private toastr: ToastrService,
+    ){}
+
   ngOnInit() {
-    this.lobbyCode = this.generateCode();
+    const code = this.route.snapshot.paramMap.get('id');
+
+    if (!code) {
+      this.toastr.error('Code de partie manquant.');
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    this.lobbyCode = code;
+    this.createLobbyBack();
   }
 
-  generateCode(): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    return Array.from({ length: 8 }, () =>
-      chars[Math.floor(Math.random() * chars.length)]
-    ).join('');
+  createLobbyBack(): void {
+    this.partyService.createParty( this.lobbyCode).subscribe({
+      next: (res) => {
+        this.lobbyCode = res.gameId;
+        this.toastr.success('Partie créée avec succès !', 'Succès');
+      },
+      error: (err) => {
+        console.error('Erreur création partie :', err);
+        this.toastr.error('Impossible de créer la partie.', 'Erreur');
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   copyCode() {
@@ -46,5 +72,19 @@ export class LobbyComponent implements OnInit {
 
   startGame() {
     console.log('Game started with config:', this.roles);
+  }
+  quitGame() {
+    this.router.navigate(['/home']);
+  }
+
+  refreshPlayers() {
+    this.partyService.getPlayers(this.lobbyCode).subscribe({
+      next: (res) => {
+        console.log(`Joueurs connectés à la partie ${this.lobbyCode} :`, res.joueurs);
+      },
+      error: () => {
+        this.toastr.error('Erreur lors du chargement des joueurs.');
+      }
+    });
   }
 }
