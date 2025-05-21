@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PartyService {
-  // private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
@@ -23,5 +22,6 @@ export class PartyService {
   getPlayers(partyId: string) {
     return this.http.get<{ joueurs: { id: number, pseudo: string }[] }>(`http://localhost:3000/partie/${partyId}/players`);
   }
+
 
 }

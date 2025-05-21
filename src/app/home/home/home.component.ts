@@ -34,6 +34,6 @@ export class HomeComponent {
     return this.authService.getUserPseudo()
   }
   goDemo(){
-    this.router.navigate(['/day']);
+    this.router.navigate(['/demo']);
   }
 }
