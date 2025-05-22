@@ -1,0 +1,15 @@
+<div class="lobby-container">
+  <div class="overlay">
+    <h1 class="title">Vous êtes dans le lobby </h1>
+
+      <div class="players-panel">
+        <div *ngFor="let player of players" class="player-slot">
+          <div class="icon">👤</div>
+          <span>{{ player || '' }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="start-btn" (click)="quitGame()">Quitter la partie</button>
+    </div>
+  </div>

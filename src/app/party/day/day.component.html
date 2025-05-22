@@ -1,0 +1,21 @@
+<div class="jour-container">
+  <h1 class="day-title">JOUR 1</h1>
+
+  <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+    <div class="flip-inner">
+      <div class="flip-front">
+        <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+      </div>
+      <div class="flip-back">
+        <img src="/assets/villageois.png" alt="Villageois">
+        <p class="desc">Vous etes Villageois<br>
+          Vous devez gagner avec le Village<br>
+          Vous n’avez pas de pouvoir particulier .</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="next-btn" (click)="goToNext()">button next</button>
+  <div class="info-icon">?</div>
+</div>
+

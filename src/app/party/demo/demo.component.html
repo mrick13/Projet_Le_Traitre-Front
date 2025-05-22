@@ -1,0 +1,11 @@
+<div class="demo-lobby-container">
+  <h1 class="title">Lobby Démo</h1>
+
+  <div class="roles-panel">
+    <div class="role-card" *ngFor="let player of players">
+      Joueur {{player.id}} : {{player.role}}
+    </div>
+  </div>
+
+  <button class="btn" (click)="goToParty()">Démarrer la démo</button>
+</div>

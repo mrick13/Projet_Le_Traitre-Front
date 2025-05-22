@@ -1,0 +1,16 @@
+<div class="join-container">
+  <div class="overlay">
+    <h1 class="title">Rejoindre une partie</h1>
+    <form (ngSubmit)="joinGame()" #joinForm="ngForm">
+      <input
+        type="text"
+        name="code"
+        [(ngModel)]="gameCode"
+        class="input-field"
+        placeholder="Entrez le code de la partie"
+        required
+      />
+      <button type="submit" class="btn">Rejoindre</button>
+    </form>
+  </div>
+</div>

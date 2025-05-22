@@ -1,0 +1,115 @@
+.lobby-container {
+  width: 100vw;
+  height: 100vh;
+  background: url('/assets/home_img.png') no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.title {
+  color: white;
+  font-size: 2rem;
+  font-family: 'Katibeh', cursive;
+  text-align: center;
+}
+
+.code {
+  font-weight: bold;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.main-section {
+  display: flex;
+  gap: 60px;
+}
+
+.roles-panel, .players-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(2, 47, 77, 0.95);
+  border-radius: 15px;
+  max-width: 400px;
+  max-height: 500px;
+}
+
+.role-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 150px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.counter button {
+  padding: 4px 10px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.players-panel {
+  width: 300px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
+
+.player-slot {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+.start-btn {
+  padding: 15px 30px;
+  background: linear-gradient(to right, #022F4D, #023353, #011526);
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Katibeh', cursive;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  gap: 30px;
+}

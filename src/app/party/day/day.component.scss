@@ -1,0 +1,98 @@
+.jour-container {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to top right, #96A7F1, #57608B);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 40px;
+  position: relative;
+}
+
+.day-title {
+  font-size: 2.5rem;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 360px;
+  perspective: 1000px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ddd;
+  border-radius: 40px;
+}
+
+.flip-front img {
+  width: 120px;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+.flip-back img {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+.desc {
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.7rem;
+}
+
+.next-btn {
+  padding: 12px 28px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.info-icon {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: black;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: help;
+}
