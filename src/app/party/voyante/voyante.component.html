@@ -15,7 +15,18 @@
     </div>
   </div>
 
+  <div class="players-container">
+    <div
+      class="player-option"
+      *ngFor="let joueur of joueurs"
+      [class.revealed]="joueur === joueurChoisi"
+      [class.disabled]="joueurChoisi && joueur !== joueurChoisi"
+      (click)="revealRole(joueur)"
+    >
+      {{ joueur.pseudo }} <span *ngIf="joueur === joueurChoisi">: {{ joueur.role }}</span>
+    </div>
+  </div>
+
   <button class="next-btn" (click)="goToNext()">button next</button>
   <div class="info-icon">?</div>
 </div>
-

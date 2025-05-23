@@ -65,6 +65,38 @@
   margin-bottom: 20px;
 }
 
+.players-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.player-option {
+  background: #eee;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+}
+
+.player-option:hover {
+  background-color: #ddd;
+}
+
+.player-option.revealed {
+  border: 2px solid limegreen;
+  background-color: white;
+}
+
+.player-option.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .next-btn {
   margin-top: 30px;
   padding: 12px 28px;
