@@ -17,10 +17,18 @@
   margin-bottom: 30px;
 }
 
+.card-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .flip-card {
   background-color: transparent;
   width: 300px;
-  height: 360px;
+  height: 420px;
   perspective: 1000px;
   cursor: pointer;
   margin-bottom: 30px;
@@ -63,6 +71,69 @@
 .flip-back img {
   width: 100px;
   margin-bottom: 20px;
+}
+
+.flip-card.power-validated {
+  cursor: default;
+  /* pointer-events: none; // NE PAS METTRE POUR NE PAS BLOQUER LES CLICS SUR LES JOUEURS */
+}
+
+.players-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.player-option {
+  background: #eee;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.player-option:hover {
+  background-color: #ddd;
+}
+
+.player-option.revealed {
+  border: 2px solid crimson;
+  background-color: white;
+}
+
+.player-option.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.player-option.grisé {
+  opacity: 0.4;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+.valider-btn {
+  margin-top: 18px;
+  padding: 10px 24px;
+  background-color: #b71c1c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.valider-btn:disabled {
+  background-color: #999;
+  color: #eee;
+  cursor: not-allowed;
 }
 
 .next-btn {

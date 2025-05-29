@@ -37,4 +37,16 @@ export class DemoService {
   getJoueurs() {
     return this.joueursDemo;
   }
+
+  tuerJoueur(joueurId: number): Observable<any> {
+    // Update côté back
+    return this.http.patch(`${this.baseUrl}/demo/joueur/${joueurId}`, { etat: false }).pipe(
+      map((res) => {
+        // Update côté front (cache local)
+        const joueur = this.joueursDemo.find(j => j.id === joueurId);
+        if (joueur) joueur.etat = false;
+        return res;
+      })
+    );
+  }
 }
