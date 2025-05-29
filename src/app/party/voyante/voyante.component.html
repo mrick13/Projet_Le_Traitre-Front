@@ -1,29 +1,43 @@
 <div class="night-container">
   <h1 class="day-title">NUIT 1</h1>
 
-  <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
-    <div class="flip-inner">
-      <div class="flip-front">
-        <img src="/assets/point-dinterrogation.png" alt="Interrogation">
-      </div>
-      <div class="flip-back">
-        <img src="/assets/voyante.png" alt="Villageois">
-        <p class="desc">Vous etes Voyante<br>
-          Vous devez gagner avec le Village<br>
-          Vous Pouvez voir le rôle d'un joueur</p>
+  <div class="card-wrapper">
+    <!-- Carte principale Voyante -->
+    <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+        </div>
+        <div class="flip-back">
+          <img src="/assets/voyante.png" alt="Voyante">
+          <p class="desc">Vous êtes Voyante<br>
+            Vous devez gagner avec le Village<br>
+            Vous pouvez voir le rôle d'un joueur</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="players-container">
-    <div
-      class="player-option"
-      *ngFor="let joueur of joueurs"
-      [class.revealed]="joueur === joueurChoisi"
-      [class.disabled]="joueurChoisi && joueur !== joueurChoisi"
-      (click)="revealRole(joueur)"
-    >
-      {{ joueur.pseudo }} <span *ngIf="joueur === joueurChoisi">: {{ joueur.role }}</span>
+    <!-- Carte Pouvoirs -->
+    <div class="flip-card" [class.flipped]="isPowerFlipped" [class.power-used]="powerFlippedOnce" (click)="flipPowerCard()">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+        </div>
+        <div class="flip-back power-card">
+          <p class="desc">Choisissez un joueur à observer :</p>
+          <div class="players-container">
+            <div
+              class="player-option"
+              *ngFor="let joueur of joueurs"
+              [class.revealed]="joueur === joueurChoisi"
+              [class.disabled]="joueur.id === 3 || (joueurChoisi && joueur !== joueurChoisi)"
+              (click)="joueur.id !== 3 && revealRole(joueur)"
+            >
+              {{ joueur.pseudo }} <span *ngIf="joueur === joueurChoisi">: {{ joueur.role }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

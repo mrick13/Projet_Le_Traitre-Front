@@ -7,6 +7,7 @@ import { Observable, switchMap, map } from 'rxjs';
 })
 export class DemoService {
   private baseUrl = 'http://localhost:3000/partie';
+  private joueursDemo: { id: number, pseudo: string, etat: boolean, role: string }[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -17,17 +18,23 @@ export class DemoService {
         const roles = JSON.parse(res.partie.roles);
         return this.http.get<{ joueurs: { id: number, pseudo: string, etat: boolean }[] }>(`${this.baseUrl}/${partyId}/players`).pipe(
           map((joueurRes) => {
-            const joueurs = joueurRes.joueurs.map(joueur => ({
+            this.joueursDemo = joueurRes.joueurs.map(joueur => ({
               id: joueur.id,
               pseudo: joueur.pseudo,
-              etat: true,
+              etat: joueur.etat = true,
               role: roles.find((r: any) => r.joueurId === joueur.id)?.role || 'Inconnu'
             }));
-            console.table(joueurs)
-            return { gameId: partyId, joueurs };
+            return {
+              gameId: partyId ,
+              joueurs : this.joueursDemo,
+            };
           })
         );
       })
     );
+  }
+
+  getJoueurs() {
+    return this.joueursDemo;
   }
 }

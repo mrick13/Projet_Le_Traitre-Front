@@ -17,6 +17,14 @@
   margin-bottom: 30px;
 }
 
+.card-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .flip-card {
   background-color: transparent;
   width: 300px;
@@ -63,6 +71,13 @@
 .flip-back img {
   width: 100px;
   margin-bottom: 20px;
+}
+
+.flip-card.power-used {
+  cursor: default;
+}
+.flip-card.power-used .flip-front {
+  pointer-events: none;
 }
 
 .players-container {
