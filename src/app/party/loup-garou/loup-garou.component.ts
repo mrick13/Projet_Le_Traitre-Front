@@ -14,13 +14,19 @@ export class LoupGarouComponent implements OnInit {
   isFlipped = false;
   isPowerFlipped = false;
   powerValidated = false;
-  joueurs: { id: number; pseudo: string; etat?: boolean }[] = [];
+  joueurs: { id: number; pseudo: string; etat?: boolean; role?: string }[] = [];
   joueurCible: any = null;
+  loups: { id: number; pseudo: string }[] = [];
+  monId = 4;
 
   constructor(private router: Router, private demoService: DemoService) {}
 
   ngOnInit(): void {
     this.joueurs = this.demoService.getJoueurs();
+    // Trouve tous les loups-garous sauf moi-même
+    this.loups = this.joueurs
+      .filter(j => j.role === 'Loup-Garou' && j.id !== this.monId)
+      .map(j => ({ id: j.id, pseudo: j.pseudo }));
   }
 
   flipCard() {
@@ -34,7 +40,7 @@ export class LoupGarouComponent implements OnInit {
   }
 
   choisirVictime(joueur: any) {
-    if (!this.powerValidated && joueur.id !== 4) {
+    if (!this.powerValidated && joueur.id !== this.monId) {
       this.joueurCible = joueur;
     }
   }
@@ -42,13 +48,11 @@ export class LoupGarouComponent implements OnInit {
   validerChoix() {
     if (this.joueurCible && !this.powerValidated) {
       this.powerValidated = true;
-      // Appel au service pour tuer le joueur côté back + front
       this.demoService.tuerJoueur(this.joueurCible.id).subscribe({
         next: () => {
           alert('Vous avez tué un joueur')
         },
         error: (err) => {
-          // Gérer l'erreur si besoin
           alert('Erreur lors de la validation : ' + err?.message || err);
         }
       });

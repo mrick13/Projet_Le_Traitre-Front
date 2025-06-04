@@ -71,7 +71,82 @@
   line-height: 1.7rem;
 }
 
+.day-main {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.cards-droite {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.card-droite {
+  background: #e3ebfd;
+  border-radius: 22px;
+  padding: 24px 32px;
+  box-shadow: 0 2px 12px #0001;
+  min-width: 260px;
+  min-height: 120px;
+}
+
+.resume-title,
+.vote-title {
+  font-weight: bold;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.players-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 18px;
+}
+
+.player-option {
+  background: #eee;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+  transition: background 0.2s, opacity 0.2s;
+}
+.player-option.selected {
+  border: 2px solid #1a237e;
+  background-color: white;
+}
+.player-option.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.valider-btn {
+  margin-top: 18px;
+  padding: 10px 24px;
+  background-color: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.valider-btn:disabled {
+  background-color: #999;
+  color: #eee;
+  cursor: not-allowed;
+}
+
 .next-btn {
+  margin-top: 30px;
   padding: 12px 28px;
   background-color: #ddd;
   border: none;

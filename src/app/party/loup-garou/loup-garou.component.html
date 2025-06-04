@@ -12,7 +12,14 @@
           <img src="/assets/loup-garou.png" alt="Loup-Garou">
           <p class="desc">
             Vous êtes Loup-Garou<br>
-            Vous devez gagner avec les Loups<br>
+            Vous devez gagner avec les Loups
+            <span *ngIf="loups.length > 0">
+              qui sont :
+              <span *ngFor="let loup of loups; let last = last">
+                {{ loup.pseudo }}<span *ngIf="!last">, </span>
+              </span>
+            </span>
+            <br>
             Vous pouvez tuer un joueur
           </p>
         </div>
@@ -31,12 +38,14 @@
             <div
               class="player-option"
               *ngFor="let joueur of joueurs"
-              [class.grisé]="joueur.id === 4 || joueur.etat === false"
+              [class.grisé]="joueur.id === monId || joueur.etat === false"
               [class.revealed]="joueur === joueurCible"
-              [class.disabled]="powerValidated || joueur.id === 4 || joueur.etat === false"
+              [class.disabled]="powerValidated || joueur.id === monId || joueur.etat === false"
               (click)="choisirVictime(joueur)"
             >
-              {{ joueur.pseudo }} <span *ngIf="joueur === joueurCible">: ciblé</span>
+              {{ joueur.pseudo }}
+              <span *ngIf="joueur.role === 'Loup-Garou'"> (loup)</span>
+              <span *ngIf="joueur === joueurCible">: ciblé</span>
               <span *ngIf="joueur.etat === false"> (mort)</span>
             </div>
           </div>

@@ -8,8 +8,21 @@ import { Observable, switchMap, map } from 'rxjs';
 export class DemoService {
   private baseUrl = 'http://localhost:3000/partie';
   private joueursDemo: { id: number, pseudo: string, etat: boolean, role: string }[] = [];
+  public jourActuel = 1;
 
   constructor(private http: HttpClient) {}
+
+  resetJour() {
+    this.jourActuel = 1;
+  }
+
+  incrementerJour() {
+    this.jourActuel++;
+  }
+
+  getJourActuel() {
+    return this.jourActuel;
+  }
 
   createDemoParty(): Observable<{ gameId: string, joueurs: any[] }> {
     const partyId = 'DEMO1234';
