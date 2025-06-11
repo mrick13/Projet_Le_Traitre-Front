@@ -8,4 +8,5 @@ web:
   locations:
     '/':
       root: 'dist/loup-garou-front'
-      index: 'index.html'
+      index:
+        - index.html
