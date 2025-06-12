@@ -9,6 +9,6 @@ web:
 
   locations:
     '/':
-      root: 'dist'
+      root: 'dist/loup-garou-front'
       index:
         - index.html
