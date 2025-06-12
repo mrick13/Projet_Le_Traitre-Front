@@ -3,7 +3,7 @@ type: 'nodejs:22'
 
 hooks :
   build :  |
-    ng build
+    npm run build
 
 web:
 
