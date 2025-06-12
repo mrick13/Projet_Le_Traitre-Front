@@ -2,11 +2,8 @@ name: 'app'
 type: 'nodejs:22'
 
 web:
-  commands:
-    start: npx http-server dist/loup-garou-front -p $PORT
-
   locations:
     '/':
-      root: 'dist/loup-garou-front'
+      root: '/dist'
       index:
         - index.html
