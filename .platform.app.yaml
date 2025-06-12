@@ -1,7 +1,12 @@
 name: 'app'
 type: 'nodejs:22'
 
+hooks :
+  build :  |
+    ng build
+
 web:
+
   locations:
     '/':
       root: '/dist'
