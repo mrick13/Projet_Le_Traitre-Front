@@ -1,1 +1,17 @@
-<p>end works!</p>
+<div class="end-container">
+  <h1 class="end-title">{{ getWinnerLabel() }}</h1>
+  <p class="end-sub">Merci d'avoir joué !</p>
+
+  <div class="roster card-droite" *ngIf="roster.length > 0">
+    <div class="roster-title">Rôles de la partie</div>
+    <div class="roster-list">
+      <div class="roster-item" *ngFor="let joueur of roster" [class.dead]="!joueur.alive">
+        <span class="pseudo">{{ joueur.pseudo }}</span>
+        <span class="role">{{ joueur.playerRole || '?' }}</span>
+        <span class="status">{{ joueur.alive ? '' : '💀' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="next-btn" (click)="retourAccueil()">Retour à l'accueil</button>
+</div>

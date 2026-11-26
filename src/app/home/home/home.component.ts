@@ -33,7 +33,7 @@ export class HomeComponent {
   getUserPseudo(): string | null {
     return this.authService.getUserPseudo()
   }
-  goDemo(){
-    this.router.navigate(['/demo']);
+  goProfile(){
+    this.router.navigate(['/profile']);
   }
 }

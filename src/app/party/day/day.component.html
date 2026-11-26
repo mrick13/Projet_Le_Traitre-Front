@@ -1,81 +1,97 @@
 <div class="jour-container">
   <h1 class="day-title">JOUR {{ jourActuel }}</h1>
 
-  <div class="day-main">
-    <!-- Card rôle à gauche -->
-    <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <img src="/assets/point-dinterrogation.png" alt="Interrogation">
-        </div>
-        <div class="flip-back">
-          <img src="/assets/villageois.png" alt="Villageois">
-          <p class="desc">
-            Vous êtes Villageois<br>
-            Vous devez gagner avec le Village<br>
-            Vous n’avez pas de pouvoir particulier.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Cards à droite (jour > 1) -->
-    <div class="cards-droite" *ngIf="jourActuel > 1">
-      <!-- Résumé de la nuit -->
-      <div class="resume-nuit card-droite">
-        <div class="resume-title">Résumé de la nuit</div>
-        <div class="resume-content">
-          <ng-container *ngIf="mortsCetteNuit.length > 0; else rienNuit">
-            <div *ngFor="let mort of mortsCetteNuit">
-              {{ mort.pseudo }} ({{ mort.role }}) est mort.
-            </div>
-          </ng-container>
-          <ng-template #rienNuit>
-            <div>Rien ne s'est passé cette nuit.</div>
-          </ng-template>
-        </div>
-      </div>
-
-      <!-- Vote -->
-      <div class="vote card-droite">
-        <div class="vote-title">Vote</div>
-        <div class="vote-content" *ngIf="!voteValide">
-          <div>Qui veux-tu voter ?</div>
-          <div class="players-container">
-            <div
-              class="player-option"
-              *ngFor="let joueur of joueurs"
-              [class.selected]="joueur === joueurVote"
-              [class.disabled]="!joueur.etat"
-              (click)="choisirVote(joueur)"
-            >
-              {{ joueur.pseudo }}
-              <span *ngIf="!joueur.etat"> (mort)</span>
-              <span *ngIf="joueur === joueurVote"> : sélectionné</span>
-            </div>
-          </div>
-          <button class="valider-btn" [disabled]="!joueurVote" (click)="validerVote()">Valider mon vote</button>
-        </div>
-        <div class="vote-result" *ngIf="voteValide">
-          Tu as voté pour <b>{{ joueurVote?.pseudo }}</b> et son rôle était <b>{{ joueurVote?.role }}</b>.
-        </div>
-      </div>
-    </div>
+  <!-- Écran d'attente multiplayer si pas actif -->
+  <div *ngIf="isMultiplayer && !isActivePlayer" class="waiting-screen">
+    <p>En attente de la prochaine phase...</p>
   </div>
 
-  <button
-    class="next-btn"
-    *ngIf="jourActuel < 2"
-    (click)="goToNext()"
-  >
-    button next
-  </button>
-  <button
-    class="next-btn"
-    *ngIf="jourActuel >= 2"
-    (click)="finDemo()"
-  >
-    Fin de démo
-  </button>
-  <div class="info-icon">?</div>
+  <!-- Contenu normal -->
+  <div *ngIf="!isMultiplayer || isActivePlayer">
+    <div class="day-main">
+      <!-- Card rôle à gauche -->
+      <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back">
+            <img [src]="roleImage" [alt]="monRole">
+            <p class="desc" [innerHTML]="roleDescription"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards à droite (jour > 1) -->
+      <div class="cards-droite" *ngIf="jourActuel > 1">
+        <!-- Résumé de la nuit -->
+        <div class="resume-nuit card-droite">
+          <div class="resume-title">Résumé de la nuit</div>
+          <div class="resume-content">
+            <ng-container *ngIf="mortsCetteNuit.length > 0; else rienNuit">
+              <div *ngFor="let mort of mortsCetteNuit">
+                {{ mort.pseudo }} ({{ mort.role }}) est mort.
+              </div>
+            </ng-container>
+            <ng-template #rienNuit>
+              <div>Rien ne s'est passé cette nuit.</div>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- Vote -->
+        <div class="vote card-droite">
+          <div class="vote-title">Vote</div>
+          <div class="vote-tie-banner" *ngIf="isMultiplayer && voteRunoffCandidates">
+            Égalité, second tour entre {{ voteRunoffCandidates.length }} joueurs : revotez.
+          </div>
+          <div class="vote-content" *ngIf="!voteValide">
+            <div>Qui veux-tu voter ?</div>
+            <div class="players-container">
+              <div
+                class="player-option"
+                *ngFor="let joueur of joueurs"
+                [class.selected]="joueur === joueurVote"
+                [class.disabled]="!joueur.etat || (isMultiplayer && (!estCandidatRunoff(joueur) || joueur.id === monId))"
+                (click)="choisirVote(joueur)"
+              >
+                {{ joueur.pseudo }}
+                <span *ngIf="!joueur.etat"> (mort)</span>
+                <span *ngIf="isMultiplayer && joueur.id === monId"> (vous)</span>
+                <span *ngIf="joueur === joueurVote"> : sélectionné</span>
+              </div>
+            </div>
+            <button class="valider-btn" [disabled]="!joueurVote" (click)="validerVote()">Valider mon vote</button>
+          </div>
+          <div class="vote-result" *ngIf="voteValide">
+            <ng-container *ngIf="!isMultiplayer">
+              Tu as voté pour <b>{{ joueurVote?.pseudo }}</b> et son rôle était <b>{{ joueurVote?.role }}</b>.
+            </ng-container>
+            <ng-container *ngIf="isMultiplayer">
+              Vote enregistré pour <b>{{ joueurVote?.pseudo }}</b>, en attente des autres joueurs...
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boutons de navigation uniquement en mode démo -->
+    <button
+      class="next-btn"
+      *ngIf="!isMultiplayer && jourActuel < 2"
+      (click)="goToNext()"
+    >
+      button next
+    </button>
+    <button
+      class="next-btn"
+      *ngIf="!isMultiplayer && jourActuel >= 2"
+      (click)="finDemo()"
+    >
+      Fin de démo
+    </button>
+  </div>
+  <div class="info-icon" (click)="showRolesInfo = true">?</div>
+
+  <app-roles-info *ngIf="showRolesInfo" (close)="showRolesInfo = false"></app-roles-info>
 </div>

@@ -1,66 +1,90 @@
 <div class="night-container">
   <h1 class="day-title">NUIT 1</h1>
 
-  <div class="card-wrapper">
-    <!-- Carte principale Loup-Garou -->
-    <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+  <!-- Écran d'attente pour les non-Loup-Garou en multiplayer -->
+  <div *ngIf="isMultiplayer && !isActivePlayer" class="waiting-screen">
+    <p>La nuit tombe... Les Loups-Garous choisissent leur victime.</p>
+    <p>Attendez la phase suivante.</p>
+    <div class="flip-card" [class.flipped]="isWaitingFlipped" (click)="flipWaitingCard()">
       <div class="flip-inner">
         <div class="flip-front">
           <img src="/assets/point-dinterrogation.png" alt="Interrogation">
         </div>
         <div class="flip-back">
-          <img src="/assets/loup-garou.png" alt="Loup-Garou">
-          <p class="desc">
-            Vous êtes Loup-Garou<br>
-            Vous devez gagner avec les Loups
-            <span *ngIf="loups.length > 0">
-              qui sont :
-              <span *ngFor="let loup of loups; let last = last">
-                {{ loup.pseudo }}<span *ngIf="!last">, </span>
-              </span>
-            </span>
-            <br>
-            Vous pouvez tuer un joueur
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Carte Pouvoirs -->
-    <div class="flip-card" [class.flipped]="isPowerFlipped" [class.power-validated]="powerValidated" (click)="flipPowerCard()">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <img src="/assets/point-dinterrogation.png" alt="Interrogation">
-        </div>
-        <div class="flip-back power-card">
-          <p class="desc">Choisissez un joueur à éliminer :</p>
-          <div class="players-container">
-            <div
-              class="player-option"
-              *ngFor="let joueur of joueurs"
-              [class.grisé]="joueur.id === monId || joueur.etat === false"
-              [class.revealed]="joueur === joueurCible"
-              [class.disabled]="powerValidated || joueur.id === monId || joueur.etat === false"
-              (click)="choisirVictime(joueur)"
-            >
-              {{ joueur.pseudo }}
-              <span *ngIf="joueur.role === 'Loup-Garou'"> (loup)</span>
-              <span *ngIf="joueur === joueurCible">: ciblé</span>
-              <span *ngIf="joueur.etat === false"> (mort)</span>
-            </div>
-          </div>
-          <button
-            class="valider-btn"
-            [disabled]="!joueurCible || powerValidated"
-            (click)="validerChoix()"
-          >
-            Valider
-          </button>
+          <img [src]="roleImage" [alt]="monRole">
+          <p class="desc">Votre rôle : {{ monRole }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <button class="next-btn" (click)="goToNext()">button next</button>
-  <div class="info-icon">?</div>
+  <!-- Contenu normal (Loup-Garou actif ou mode démo) -->
+  <ng-container *ngIf="!isMultiplayer || isActivePlayer">
+    <div class="card-wrapper">
+      <!-- Carte principale Loup-Garou -->
+      <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back">
+            <img src="/assets/loup-garou.png" alt="Loup-Garou">
+            <p class="desc">
+              Vous êtes Loup-Garou<br>
+              Vous devez gagner avec les Loups
+              <span *ngIf="loups.length > 0">
+                qui sont :
+                <span *ngFor="let loup of loups; let last = last">
+                  {{ loup.pseudo }}<span *ngIf="!last">, </span>
+                </span>
+              </span>
+              <br>
+              Vous pouvez tuer un joueur
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Pouvoirs -->
+      <div class="flip-card" [class.flipped]="isPowerFlipped" [class.power-validated]="powerValidated" (click)="flipPowerCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back power-card">
+            <p class="desc">Choisissez un joueur à éliminer :</p>
+            <div class="players-container">
+              <div
+                class="player-option"
+                *ngFor="let joueur of joueurs"
+                [class.grisé]="joueur.id === monId || joueur.etat === false"
+                [class.revealed]="joueur === joueurCible"
+                [class.disabled]="powerValidated || joueur.id === monId || joueur.etat === false"
+                (click)="choisirVictime(joueur)"
+              >
+                {{ joueur.pseudo }}
+                <span *ngIf="joueur.role === 'Loup-Garou'"> (loup)</span>
+                <span *ngIf="joueur === joueurCible">: ciblé</span>
+                <span *ngIf="joueur.etat === false"> (mort)</span>
+              </div>
+            </div>
+            <button
+              class="valider-btn"
+              [disabled]="!joueurCible || powerValidated"
+              (click)="validerChoix()"
+            >
+              Valider
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton next uniquement en mode démo -->
+    <button *ngIf="!isMultiplayer" class="next-btn" (click)="goToNext()">button next</button>
+  </ng-container>
+
+  <div class="info-icon" (click)="showRolesInfo = true">?</div>
+
+  <app-roles-info *ngIf="showRolesInfo" (close)="showRolesInfo = false"></app-roles-info>
 </div>

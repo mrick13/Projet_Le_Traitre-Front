@@ -1,0 +1,69 @@
+<div class="gm-container">
+  <h1 class="gm-title">Maitre du Jeu</h1>
+
+  <div class="gm-status">
+    <div class="phase-badge">Phase : {{ getPhaseName(currentPhase) }}</div>
+    <div class="day-badge" *ngIf="dayNumber > 0">Jour {{ dayNumber }}</div>
+  </div>
+
+  <div class="winner-banner" *ngIf="currentPhase === 'end' && gameOver">
+    {{ getWinnerLabel() }}
+  </div>
+
+  <!-- Controles -->
+  <div class="gm-controls">
+    <button class="gm-btn start-btn" *ngIf="currentPhase === 'lobby'" (click)="startGame()">
+      Demarrer la partie
+    </button>
+
+    <button class="gm-btn next-btn" *ngIf="currentPhase !== 'lobby' && currentPhase !== 'end'" (click)="nextPhase()">
+      Phase suivante
+    </button>
+
+    <!-- Boutons de saut direct -->
+    <div class="phase-shortcuts" *ngIf="currentPhase !== 'lobby' && currentPhase !== 'end'">
+      <button
+        class="gm-btn phase-btn"
+        *ngFor="let phase of phases"
+        [class.active]="phase === currentPhase"
+        [disabled]="phase === currentPhase"
+        (click)="goToPhase(phase)"
+      >
+        {{ getPhaseName(phase) }}
+      </button>
+    </div>
+
+    <button class="gm-btn end-btn" *ngIf="currentPhase !== 'lobby' && currentPhase !== 'end'" (click)="endGame()">
+      Fin de partie
+    </button>
+
+    <button class="gm-btn quit-btn" (click)="quitGame()">
+      Quitter
+    </button>
+  </div>
+
+  <!-- Joueurs connectes -->
+  <div class="gm-section">
+    <h2>Joueurs connectes ({{ players.length }})</h2>
+    <div class="players-list">
+      <div class="player-item" *ngFor="let player of players" [class.dead]="!player.alive">
+        {{ player.pseudo }}
+        <span *ngIf="getRole(player.userId) as role"> ({{ role }})</span>
+        <span *ngIf="!player.alive"> 💀</span>
+      </div>
+      <div *ngIf="players.length === 0" class="empty-msg">Aucun joueur connecte</div>
+    </div>
+  </div>
+
+  <!-- Historique des actions -->
+  <div class="gm-section" *ngIf="currentPhase !== 'lobby'">
+    <h2>Historique des actions</h2>
+    <div class="actions-list">
+      <div class="action-item" *ngFor="let action of historiqueRecent()">
+        <span class="action-tag">{{ getPhaseName(action.phase) }}<ng-container *ngIf="action.dayNumber > 0"> (Jour {{ action.dayNumber }})</ng-container></span>
+        <strong>{{ action.pseudo }}</strong> : {{ action.action }} -> {{ getPseudo(action.targetId) }}
+      </div>
+      <div *ngIf="historique.length === 0" class="empty-msg">Aucune action pour l'instant</div>
+    </div>
+  </div>
+</div>

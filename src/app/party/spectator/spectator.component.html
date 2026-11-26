@@ -1,0 +1,18 @@
+<div class="spectator-container">
+  <h1 class="spectator-title">Vous êtes mort</h1>
+  <p class="spectator-sub">Phase actuelle : {{ getPhaseName(currentPhase) }} <span *ngIf="dayNumber > 0">(Jour {{ dayNumber }})</span></p>
+
+  <div class="roster card-droite">
+    <div class="roster-title">Rôles de la partie</div>
+    <div class="roster-list">
+      <div class="roster-item" *ngFor="let joueur of roster" [class.dead]="!joueur.alive">
+        <span class="pseudo">{{ joueur.pseudo }}</span>
+        <span class="role">{{ joueur.playerRole || '?' }}</span>
+        <span class="status">{{ joueur.alive ? '' : '💀' }}</span>
+      </div>
+      <div *ngIf="roster.length === 0" class="empty-msg">En attente des informations...</div>
+    </div>
+  </div>
+
+  <button class="next-btn" (click)="quitGame()">Quitter</button>
+</div>

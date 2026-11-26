@@ -7,9 +7,10 @@ export class PartyService {
 
   constructor(private http: HttpClient) {}
 
-  createParty(lobbyCode: string): Observable<{ gameId: string }> {
+  createParty(lobbyCode: string, userId: number | null): Observable<{ gameId: string }> {
     return this.http.post<{ gameId: string }>('http://localhost:3000/partie/lobby', {
       id: lobbyCode,
+      userId,
     });
   }
 

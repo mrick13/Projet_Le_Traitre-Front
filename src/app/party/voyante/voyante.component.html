@@ -1,46 +1,70 @@
 <div class="night-container">
   <h1 class="day-title">NUIT 1</h1>
 
-  <div class="card-wrapper">
-    <!-- Carte principale Voyante -->
-    <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+  <!-- Écran d'attente pour les non-Voyante en multiplayer -->
+  <div *ngIf="isMultiplayer && !isActivePlayer" class="waiting-screen">
+    <p>La nuit tombe... La Voyante utilise son pouvoir.</p>
+    <p>Attendez la phase suivante.</p>
+    <div class="flip-card" [class.flipped]="isWaitingFlipped" (click)="flipWaitingCard()">
       <div class="flip-inner">
         <div class="flip-front">
           <img src="/assets/point-dinterrogation.png" alt="Interrogation">
         </div>
         <div class="flip-back">
-          <img src="/assets/voyante.png" alt="Voyante">
-          <p class="desc">Vous êtes Voyante<br>
-            Vous devez gagner avec le Village<br>
-            Vous pouvez voir le rôle d'un joueur</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Carte Pouvoirs -->
-    <div class="flip-card" [class.flipped]="isPowerFlipped" [class.power-used]="powerFlippedOnce" (click)="flipPowerCard()">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <img src="/assets/point-dinterrogation.png" alt="Interrogation">
-        </div>
-        <div class="flip-back power-card">
-          <p class="desc">Choisissez un joueur à observer :</p>
-          <div class="players-container">
-            <div
-              class="player-option"
-              *ngFor="let joueur of joueurs"
-              [class.revealed]="joueur === joueurChoisi"
-              [class.disabled]="joueur.id === 3 || (joueurChoisi && joueur !== joueurChoisi)"
-              (click)="joueur.id !== 3 && revealRole(joueur)"
-            >
-              {{ joueur.pseudo }} <span *ngIf="joueur === joueurChoisi">: {{ joueur.role }}</span>
-            </div>
-          </div>
+          <img [src]="roleImage" [alt]="monRole">
+          <p class="desc">Votre rôle : {{ monRole }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <button class="next-btn" (click)="goToNext()">button next</button>
-  <div class="info-icon">?</div>
+  <!-- Contenu normal (Voyante active ou mode démo) -->
+  <ng-container *ngIf="!isMultiplayer || isActivePlayer">
+    <div class="card-wrapper">
+      <!-- Carte principale Voyante -->
+      <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back">
+            <img src="/assets/voyante.png" alt="Voyante">
+            <p class="desc">Vous êtes Voyante<br>
+              Vous devez gagner avec le Village<br>
+              Vous pouvez voir le rôle d'un joueur</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Pouvoirs -->
+      <div class="flip-card" [class.flipped]="isPowerFlipped" [class.power-used]="powerFlippedOnce" (click)="flipPowerCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back power-card">
+            <p class="desc">Choisissez un joueur à observer :</p>
+            <div class="players-container">
+              <div
+                class="player-option"
+                *ngFor="let joueur of joueurs"
+                [class.revealed]="joueur === joueurChoisi"
+                [class.disabled]="joueur.id === monId || (joueurChoisi && joueur !== joueurChoisi)"
+                (click)="joueur.id !== monId && revealRole(joueur)"
+              >
+                {{ joueur.pseudo }} <span *ngIf="joueur === joueurChoisi">: {{ joueur.role }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton next uniquement en mode démo -->
+    <button *ngIf="!isMultiplayer" class="next-btn" (click)="goToNext()">button next</button>
+  </ng-container>
+
+  <div class="info-icon" (click)="showRolesInfo = true">?</div>
+
+  <app-roles-info *ngIf="showRolesInfo" (close)="showRolesInfo = false"></app-roles-info>
 </div>

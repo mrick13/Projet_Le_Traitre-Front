@@ -20,7 +20,7 @@ export class LoginComponent {
       response => {
         console.log('Login successful', response);
 
-        localStorage.setItem('token', response.token);
+        sessionStorage.setItem('token', response.token);
         this.authService.setUser(response);
 
         this.router.navigate(['/home']);

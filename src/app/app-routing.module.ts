@@ -14,6 +14,8 @@ import {LoupGarouComponent} from './party/loup-garou/loup-garou.component';
 import {VoyanteComponent} from './party/voyante/voyante.component';
 import {SorciereComponent} from './party/sorciere/sorciere.component';
 import {DemoComponent} from './party/demo/demo.component';
+import {GameMasterComponent} from './party/game-master/game-master.component';
+import {SpectatorComponent} from './party/spectator/spectator.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,6 +31,8 @@ const routes: Routes = [
   { path: 'loup-garou', component: LoupGarouComponent },
   { path: 'voyante', component: VoyanteComponent },
   { path: 'sorciere', component: SorciereComponent },
+  { path: 'game-master', component: GameMasterComponent },
+  { path: 'spectator', component: SpectatorComponent },
   { path: 'end', component: EndComponent },
   { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: 'login' }

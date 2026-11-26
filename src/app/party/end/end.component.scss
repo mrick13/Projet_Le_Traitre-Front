@@ -1,0 +1,81 @@
+.end-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(to top right, #96A7F1, #57608B);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 24px 16px;
+}
+
+.end-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.end-sub {
+  margin-bottom: 30px;
+  opacity: 0.85;
+}
+
+.card-droite {
+  background: #e3ebfd;
+  color: #1a1a1a;
+  border-radius: 22px;
+  padding: 24px 32px;
+  box-shadow: 0 2px 12px #0003;
+  width: min(320px, 100%);
+  margin-bottom: 30px;
+}
+
+.roster-title {
+  font-weight: bold;
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+
+.roster-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roster-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 600;
+}
+
+.roster-item.dead {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.next-btn {
+  padding: 12px 28px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 420px) {
+  .end-title {
+    font-size: 1.8rem;
+  }
+
+  .card-droite {
+    padding: 18px 20px;
+  }
+}

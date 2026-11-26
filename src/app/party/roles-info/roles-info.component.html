@@ -1,0 +1,18 @@
+<div class="roles-info-overlay" (click)="fermer()">
+  <div class="roles-info-panel" (click)="$event.stopPropagation()">
+    <div class="roles-info-header">
+      <h2>Les rôles</h2>
+      <button class="close-btn" (click)="fermer()">✕</button>
+    </div>
+
+    <div class="roles-grid">
+      <div class="role-card" *ngFor="let role of roles">
+        <img [src]="role.image" [alt]="role.nom" />
+        <div class="role-nom">{{ role.nom }}</div>
+        <div class="role-camp">Camp : {{ role.camp }}</div>
+        <p class="role-desc">{{ role.description }}</p>
+        <div class="role-badge" *ngIf="!role.pouvoirActif">Pouvoir pas encore actif dans le jeu</div>
+      </div>
+    </div>
+  </div>
+</div>

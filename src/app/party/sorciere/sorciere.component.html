@@ -1,70 +1,97 @@
 <div class="night-container">
   <h1 class="day-title">NUIT 1</h1>
 
-  <div class="card-wrapper">
-    <!-- Carte principale Sorcière -->
-    <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+  <!-- Écran d'attente pour les non-Sorciere en multiplayer -->
+  <div *ngIf="isMultiplayer && !isActivePlayer" class="waiting-screen">
+    <p>La nuit tombe... La Sorciere utilise ses potions.</p>
+    <p>Attendez la phase suivante.</p>
+    <div class="flip-card" [class.flipped]="isWaitingFlipped" (click)="flipWaitingCard()">
       <div class="flip-inner">
         <div class="flip-front">
           <img src="/assets/point-dinterrogation.png" alt="Interrogation">
         </div>
         <div class="flip-back">
-          <img src="/assets/sorciere.png" alt="Sorcière">
-          <p class="desc">
-            Vous êtes Sorcière<br>
-            Vous devez gagner avec le Village<br>
-            Vous avez le pouvoir de réssuciter ou/et de tuer un joueur
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Carte Pouvoirs -->
-    <div class="flip-card" [class.flipped]="isPowerFlipped" (click)="flipPowerCard()">
-      <div class="flip-inner">
-        <div class="flip-front">
-          <img src="/assets/point-dinterrogation.png" alt="Interrogation">
-        </div>
-        <div class="flip-back power-card">
-          <!-- Potion de vie -->
-          <ng-container *ngIf="joueurMortParLoups && !potionVieUtilisee">
-            <p class="desc">
-              <b>{{ joueurMortParLoups.pseudo }}</b> est mort cette nuit.<br>
-              Voulez-vous le réssusciter ?
-            </p>
-            <div style="display: flex; gap: 24px; justify-content: center; margin-bottom: 20px;">
-              <button class="valider-btn" (click)="resusciter()">Oui</button>
-              <button class="valider-btn" (click)="refuserResurection()">Non</button>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="potionVieUtilisee && joueurMortParLoups">
-            <p class="desc">
-              Vous avez {{ joueurMortParLoups.etat ? 'réssuscité' : 'laissé mourir' }} <b>{{ joueurMortParLoups.pseudo }}</b>.
-            </p>
-          </ng-container>
-
-          <hr style="width:60%;margin:24px auto;">
-
-          <!-- Potion de mort classique -->
-          <p class="desc"><b>Potion de mort</b> : choisissez un joueur vivant à éliminer</p>
-          <div class="players-container">
-            <div
-              class="player-option"
-              *ngFor="let joueur of joueurs"
-              [class.revealed]="joueur === cibleMort"
-              [class.disabled]="potionMortUtilisee || !joueur.etat || joueur.id === getIdSorciere()"
-              (click)="choisirVictimeMort(joueur)"
-            >
-              {{ joueur.pseudo }} <span *ngIf="!joueur.etat"> (mort)</span>
-              <span *ngIf="joueur === cibleMort">: ciblé</span>
-            </div>
-          </div>
-          <button class="valider-btn" [disabled]="!cibleMort || potionMortUtilisee" (click)="validerPotionMort()">Valider potion de mort</button>
+          <img [src]="roleImage" [alt]="monRole">
+          <p class="desc">Votre rôle : {{ monRole }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <button class="next-btn" (click)="goToNext()">button next</button>
-  <div class="info-icon">?</div>
+  <!-- Contenu normal (Sorciere active ou mode démo) -->
+  <ng-container *ngIf="!isMultiplayer || isActivePlayer">
+    <div class="card-wrapper">
+      <!-- Carte principale Sorcière -->
+      <div class="flip-card" [class.flipped]="isFlipped" (click)="flipCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back">
+            <img src="/assets/sorciere.png" alt="Sorcière">
+            <p class="desc">
+              Vous êtes Sorcière<br>
+              Vous devez gagner avec le Village<br>
+              Vous avez le pouvoir de réssuciter ou/et de tuer un joueur
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Pouvoirs -->
+      <div class="flip-card" [class.flipped]="isPowerFlipped" (click)="flipPowerCard()">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <img src="/assets/point-dinterrogation.png" alt="Interrogation">
+          </div>
+          <div class="flip-back power-card">
+            <!-- Potion de vie -->
+            <ng-container *ngIf="joueurMortParLoups && !potionVieUtilisee">
+              <p class="desc">
+                <b>{{ joueurMortParLoups.pseudo }}</b> est mort cette nuit.<br>
+                Voulez-vous le réssusciter ?
+              </p>
+              <div style="display: flex; gap: 24px; justify-content: center; margin-bottom: 20px;">
+                <button class="valider-btn" (click)="resusciter()">Oui</button>
+                <button class="valider-btn" (click)="refuserResurection()">Non</button>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="potionVieUtilisee && joueurMortParLoups">
+              <p class="desc" *ngIf="joueurMortParLoups.etat">
+                Vous avez réssuscité <b>{{ joueurMortParLoups.pseudo }}</b>.
+              </p>
+              <p class="desc" *ngIf="!joueurMortParLoups.etat">
+                <b>{{ joueurMortParLoups.pseudo }}</b> a été tué.
+              </p>
+            </ng-container>
+
+            <hr style="width:60%;margin:24px auto;">
+
+            <!-- Potion de mort classique -->
+            <p class="desc"><b>Potion de mort</b> : choisissez un joueur vivant à éliminer</p>
+            <div class="players-container">
+              <div
+                class="player-option"
+                *ngFor="let joueur of joueurs"
+                [class.revealed]="joueur === cibleMort"
+                [class.disabled]="potionMortUtilisee || !joueur.etat || joueur.id === getIdSorciere()"
+                (click)="choisirVictimeMort(joueur)"
+              >
+                {{ joueur.pseudo }} <span *ngIf="!joueur.etat"> (mort)</span>
+                <span *ngIf="joueur === cibleMort">: ciblé</span>
+              </div>
+            </div>
+            <button class="valider-btn" [disabled]="!cibleMort || potionMortUtilisee" (click)="validerPotionMort()">Valider potion de mort</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton next uniquement en mode démo -->
+    <button *ngIf="!isMultiplayer" class="next-btn" (click)="goToNext()">button next</button>
+  </ng-container>
+
+  <div class="info-icon" (click)="showRolesInfo = true">?</div>
+
+  <app-roles-info *ngIf="showRolesInfo" (close)="showRolesInfo = false"></app-roles-info>
 </div>
